@@ -1,14 +1,19 @@
-const aiServices = require("../services/ai.services.js");
+import aiService from "../services/ai.services.js";
 
-module.exports.getReview = async (req, res) => {
-  const { code } = req.body;
-  if (!code) {
-    res.status(400).send("Code is required");
-  }
+const getResponse = async (req, res) => {
   try {
-    const response = await aiServices(code);
-    res.send(response);
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({ error: "Prompt is required" });
+    }
+
+    const response = await aiService(prompt);
+    res.json({ response });
   } catch (error) {
-    res.status(500).send("AI Error: " + error.message);
+    console.error("AI Error:", error.message);
+    res.status(500).json({ error: "AI service failed" });
   }
 };
+
+export default getResponse;
