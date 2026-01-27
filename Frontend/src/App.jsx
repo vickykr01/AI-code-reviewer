@@ -21,7 +21,7 @@ function App() {
     setLoading(true);
     setReview("");
     try {
-      const response = await axios.post("http://localhost:8000/ai/get", {
+      const response = await axios.post("https://ai-code-reviewer-backend-nmct.onrender.com/ai/get", {
         prompt: code,
       });
       // console.log("Response from server:", response.data);
